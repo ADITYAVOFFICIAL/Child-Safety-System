@@ -43,7 +43,8 @@ menu = ['Welcome', 'A chat based warning system']
 with st.sidebar.beta_expander("Menu", expanded=False):
     option = st.selectbox('Choose: ', menu)
     st.subheader("Made with ❤️ by Data Science Community SRM")
-
+#st.sidebar.beta_expander("Menu", expanded=False)
+#option = st.selectbox('Choose', menu)
 if option=='Welcome':
     st.header('Welcome to the child safety system.')
     st.image('data/predators.jpg')
@@ -72,8 +73,9 @@ elif option=='A chat based warning system':
         inp=st.text_input("SAF: Hey there! Let's begin our convo :) ")
         inp=inp.lower()
         x=random.choice(m['0'])
+        #txt=preproc(inp)
         st.write('SAF: ',x)
-        model=tf.keras.models.load_model('data\lstm_glove_model.h5')
+        model=tf.keras.models.load_model('/home/akz/Programming/Child-Safety-System/code/data/lstm_glove_model.h5')
         tok=tokenizer.texts_to_sequences(x)
         pad=pad_sequences(tok,maxlen=70)
         pad1=preds(inp)
@@ -81,6 +83,8 @@ elif option=='A chat based warning system':
         res2=model.predict(pad)
         ind1=np.argmax(res1)
         ind2=np.argmax(res2)
+        #st.write(res1[ind1])
+        #st.write(res2[ind2])
         if res1[ind1]>0.8 or res2[ind2]>0.8:
             st.write('Dangerous',height=200)
         else:
